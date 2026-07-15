@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1784117071444,
+      "tag": "0000_brave_namor",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784117100000,
+      "tag": "0001_deck_bindings",
+      "breakpoints": true
+    }
+  ]
+}

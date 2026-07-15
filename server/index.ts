@@ -4,12 +4,31 @@
  */
 
 import { createApp } from "./app.ts";
-import { createLogger } from "@heybray/server-kit";
-
-const log = createLogger("server");
-const port = Number(process.env.PORT ?? 3102);
+import { initStorage } from "@heybray/media";
+import { initializeDatabase } from "./init-db.ts";
+import { logger, wireAuditLogging } from "@heybray/server-kit";
+import { reconcileGamificationProjection } from "./gamification.ts";
 
 const app = createApp();
-app.listen(port, () => {
-  log.info(`bray-flashcards listening on :${port}`);
-});
+const PORT = Number(process.env.PORT ?? 3102);
+
+async function start() {
+  try {
+    await initializeDatabase();
+    await reconcileGamificationProjection();
+    await initStorage();
+    wireAuditLogging();
+    app.listen(PORT, () => {
+      logger.info(`bray-flashcards listening on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    logger.error("Failed to start server", error instanceof Error ? error : undefined);
+    process.exit(1);
+  }
+}
+
+if (process.env.NODE_ENV !== "test") {
+  start();
+}
+
+export { app, createApp };
