@@ -25,6 +25,7 @@ import {
   updateDeckSchema,
 } from "../schema/decks.ts";
 import { DECK_CONTENT_TYPE, MANAGE_PERMISSION, gamification } from "../gamification.ts";
+
 import {
   replaceDeckRewardTiers,
   seedDefaultRewardTiers,
@@ -121,6 +122,24 @@ router.get("/", async (req: AuthRequest, res: Response) => {
   } catch (error) {
     log.error("list decks failed", error instanceof Error ? error : undefined);
     res.status(500).json({ error: "Failed to list decks" });
+  }
+});
+
+router.get("/:id/my-progress", async (req: AuthRequest, res: Response) => {
+  try {
+    const deckId = Number(req.params.id);
+    const deck = await getDeckOr404(req, res, deckId);
+    if (!deck) return;
+
+    const progress = await gamification.getContentProgress(
+      req.user!.id,
+      DECK_CONTENT_TYPE,
+      deckId,
+    );
+    res.json(progress);
+  } catch (error) {
+    log.error("get deck progress failed", error instanceof Error ? error : undefined);
+    res.status(500).json({ error: "Failed to get deck progress" });
   }
 });
 

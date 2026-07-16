@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Whitelabel palette — teal/emerald theme (distinct from Scenarios' blue) */
+/* Whitelabel palette — teal/emerald theme */
 :root {
   --background: hsl(160, 30%, 98%);
   --foreground: hsl(160, 40%, 12%);

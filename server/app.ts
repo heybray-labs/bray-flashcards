@@ -3,7 +3,7 @@
  * Copyright (C) 2026 Heybray
  */
 
-import express from "express";
+import express, { Router } from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
@@ -37,6 +37,7 @@ import {
 } from "./gamification.ts";
 import "./db.ts";
 import deckRoutes from "./routes/decks.ts";
+import teamStarMapRoutes from "./routes/team-star-map.ts";
 
 export function createApp(): express.Application {
   const app = express();
@@ -113,7 +114,12 @@ export function createApp(): express.Application {
       },
     ),
   );
-  app.use("/api/teams", authenticateToken, requirePasswordChanged, teamsRouter);
+  const teamsRoot = Router();
+  teamsRoot.use(authenticateToken);
+  teamsRoot.use(requirePasswordChanged);
+  teamsRoot.use(teamsRouter);
+  teamsRoot.use(teamStarMapRoutes);
+  app.use("/api/teams", teamsRoot);
   app.use("/api/decks", deckRoutes);
 
   if (process.env.NODE_ENV !== "test") {

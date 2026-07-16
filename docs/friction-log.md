@@ -89,3 +89,27 @@ Maintained continuously during implementation. Every entry is categorized:
 **Step:** 3  
 **Detail:** `server/lib/deck-gamification.ts` `replaceDeckRewardTiers` mirrors the upsert/delete loop from `roleplay-system.controller.ts` (~40 lines).  
 **Action:** Scaffold candidate once a platform `setRewardTiers` helper exists (FL-012).
+
+### FL-014 — Star map drawer hardcodes Scenarios-shaped API paths
+**Category:** [platform-gap]  
+**Step:** 4  
+**Detail:** `MemberProgressDrawer` fetches `/scenario-history` and expects `categories[].scenarios`; `DeckListRow` must call `/roleplays/:id/attempts` for the expand list. Server implements those paths as deck adapters; URLs/prop names remain Scenarios literals.  
+**Action:** Step 7: generalize team-star-map-react URLs to content-neutral names with back-compat aliases.
+
+### FL-015 — Client shell files copied from Scenarios
+**Category:** [boilerplate]  
+**Step:** 4  
+**Detail:** `AppLayout.tsx`, `admin-panels.ts`, `TeamStarMapPage.tsx` are near-verbatim from `bray-scenarios/client/` with permission strings, endpoints, and row component swapped. `HomePage` sidebar reuses gamification-react panels directly.  
+**Action:** Count toward ADR boilerplate ratio.
+
+### FL-016 — `StagePanel`/`FieldBlock` reused; `RESULT_STAGES` not used
+**Category:** [app-specific]  
+**Step:** 4  
+**Detail:** Generic reveal primitives fit session results with custom step labels (deck / score / rewards). `RESULT_STAGES` copy is conversation-shaped and was correctly skipped.  
+**Action:** None.
+
+### FL-017 — Session results passed via `sessionStorage` (no GET endpoint)
+**Category:** [app-specific]  
+**Step:** 4  
+**Detail:** Complete response is stashed client-side for the results page; no server route to re-fetch a completed session by id.  
+**Action:** Optional GET `/api/decks/:deckId/sessions/:id` in a later step if deep-linking results matters.

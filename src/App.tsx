@@ -3,54 +3,81 @@
  * Copyright (C) 2026 Heybray
  */
 
+import { Switch, Route } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Route, Switch } from "wouter";
 import { queryClient } from "@heybray/react/lib/queryClient";
 import { AuthProvider } from "@heybray/react/hooks/use-auth";
-import { AppConfigProvider } from "@heybray/react/config";
+import { AppConfigProvider, type AppConfig } from "@heybray/react/config";
 import { ProtectedRoute } from "@heybray/react/components/ProtectedRoute";
 import { Toaster } from "@heybray/ui/components/toaster";
+import { AppErrorBoundary, PageNotFoundScreen } from "@heybray/react/errors";
 import LoginPage from "@heybray/react/pages/LoginPage";
 import RegisterPage from "@heybray/react/pages/RegisterPage";
+import HomePage from "@/pages/HomePage";
+import DeckDetailPage from "@/pages/DeckDetailPage";
+import StudyPage from "@/pages/StudyPage";
+import SessionResultsPage from "@/pages/SessionResultsPage";
+import TeamStarMapPage from "@/pages/TeamStarMapPage";
+import "@/admin-panels";
 import logoSrc from "./logo.svg";
 import heroImageSrc from "./hero.svg";
 
-const appConfig = {
+const GITHUB_REPO_URL = "https://github.com/heybray-labs/bray-flashcards";
+
+const appConfig: AppConfig = {
   displayName: "Bray Flashcards",
-  tagline: "Study decks, earn stars",
-  urls: { repo: "https://github.com/heybray-labs/bray-flashcards" },
+  tagline: "Study decks, earn stars, master topics",
+  urls: {
+    repo: GITHUB_REPO_URL,
+    docs: `${GITHUB_REPO_URL}/tree/main/docs`,
+    issues: `${GITHUB_REPO_URL}/issues`,
+  },
   routes: {
-    contentPath: (_contentType: string, contentId: number) => `/decks/${contentId}`,
+    contentPath: (_contentType, contentId) => `/decks/${contentId}`,
   },
 };
 
-function PlaceholderHome() {
-  return (
-    <main className="mx-auto max-w-lg p-8 text-center">
-      <h1 className="text-2xl font-semibold text-foreground">Bray Flashcards</h1>
-      <p className="mt-2 text-muted-foreground">Scaffold ready — app pages land in Step 4.</p>
-    </main>
-  );
-}
+const authBranding = { logoSrc, heroImageSrc };
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AppConfigProvider value={appConfig}>
         <AuthProvider>
-          <Switch>
-            <Route path="/login">
-              <LoginPage logoSrc={logoSrc} heroImageSrc={heroImageSrc} />
-            </Route>
-            <Route path="/register">
-              <RegisterPage logoSrc={logoSrc} heroImageSrc={heroImageSrc} />
-            </Route>
-            <Route path="/">
-              <ProtectedRoute>
-                <PlaceholderHome />
-              </ProtectedRoute>
-            </Route>
-          </Switch>
+          <AppErrorBoundary>
+            <Switch>
+              <Route path="/login">{() => <LoginPage {...authBranding} />}</Route>
+              <Route path="/register">{() => <RegisterPage {...authBranding} />}</Route>
+              <Route path="/">
+                <ProtectedRoute>
+                  <HomePage />
+                </ProtectedRoute>
+              </Route>
+              <Route path="/decks/:id">
+                <ProtectedRoute>
+                  <DeckDetailPage />
+                </ProtectedRoute>
+              </Route>
+              <Route path="/decks/:id/study/:sessionId">
+                <ProtectedRoute>
+                  <StudyPage />
+                </ProtectedRoute>
+              </Route>
+              <Route path="/decks/:id/results/:sessionId">
+                <ProtectedRoute>
+                  <SessionResultsPage />
+                </ProtectedRoute>
+              </Route>
+              <Route path="/team-star-map">
+                <ProtectedRoute>
+                  <TeamStarMapPage />
+                </ProtectedRoute>
+              </Route>
+              <Route>
+                <PageNotFoundScreen />
+              </Route>
+            </Switch>
+          </AppErrorBoundary>
           <Toaster />
         </AuthProvider>
       </AppConfigProvider>
