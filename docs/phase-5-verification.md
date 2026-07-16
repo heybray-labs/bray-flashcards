@@ -1,6 +1,6 @@
 # Phase 5 verification — `bray-flashcards`
 
-Recorded after Steps 0–7. ADR: [`bray-platform/docs/app-shape-decision.md`](https://github.com/heybray-labs/bray-platform/blob/main/docs/app-shape-decision.md) (pending owner ratification).
+Recorded after Steps 0–7. ADR: [`bray-platform/docs/app-shape-decision.md`](https://github.com/heybray-labs/bray-platform/blob/main/docs/app-shape-decision.md) (ratified 2026-07-16).
 
 ## Automated suite
 
