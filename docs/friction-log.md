@@ -142,7 +142,7 @@ Maintained continuously during implementation. Every entry is categorized:
 
 ### FL-006 — `content_type DEFAULT 'scenario'`
 **Category:** [platform-gap]  
-**Status:** PR [heybray-labs/bray-platform#TBD](https://github.com/heybray-labs/bray-platform/pull/new/phase-5-platform-gaps) — changeset `phase5-gamification-gaps` removes defaults from `reward_tiers`, `user_content_tier_awards`, and `content_classification_links`.
+**Status:** PR [heybray-labs/bray-platform#4](https://github.com/heybray-labs/bray-platform/pull/4) — changeset `phase5-gamification-gaps` removes defaults from `reward_tiers`, `user_content_tier_awards`, and `content_classification_links`.
 
 ### FL-012 — `GamificationService.setRewardTiers`
 **Category:** [platform-gap]  
@@ -162,4 +162,4 @@ Maintained continuously during implementation. Every entry is categorized:
 **Category:** [boilerplate]  
 **Status:** Same PR — `examples/basic-app` bumped to `^0.1.1` / `^0.1.2` for server-kit.
 
-**Checkpoint:** Awaiting manual npm publish after Version Packages PR merges. Then bump `bray-flashcards` `@heybray/*` pins and adopt `masteryScopeToken="topic"`, `gamificationContentType: "deck"`, optional `setRewardTiers` refactor.
+**Checkpoint:** Published manually as `brayg` (CI `NPM_TOKEN` invalid — see [bray-platform#6](https://github.com/heybray-labs/bray-platform/pull/6)). Pins bumped to `@heybray/gamification@^0.2.0`, `@heybray/gamification-react@^0.2.0`, `@heybray/react@^0.1.2`, `@heybray/taxonomy@^0.1.2`. Flashcards adopts `masteryScopeToken="topic"`, `gamificationContentType: "deck"`, `ContentListRowComponent`, and `GamificationService.setRewardTiers`.

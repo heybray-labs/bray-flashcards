@@ -35,6 +35,7 @@ const appConfig: AppConfig = {
   routes: {
     contentPath: (_contentType, contentId) => `/decks/${contentId}`,
   },
+  gamificationContentType: "deck",
 };
 
 const authBranding = { logoSrc, heroImageSrc };

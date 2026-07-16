@@ -186,7 +186,8 @@ export default function TeamStarMapPage() {
           userId={drawerSelection.userId}
           initialExpandedCategory={drawerSelection.categorySlug}
           onClose={() => setDrawerSelection(null)}
-          ScenarioListRowComponent={DeckListRow}
+          ContentListRowComponent={DeckListRow}
+          contentNoun="deck"
         />
       )}
     </AppLayout>

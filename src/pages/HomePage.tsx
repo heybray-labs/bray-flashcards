@@ -133,7 +133,7 @@ export default function HomePage() {
             }}
           />
           <FeatureGate featureKey="leaderboard">
-            <LeaderboardPanel categoryOptions={topicOptions} />
+            <LeaderboardPanel categoryOptions={topicOptions} masteryScopeToken="topic" />
           </FeatureGate>
           <RecentStarsPanel />
         </aside>
