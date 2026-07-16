@@ -59,3 +59,33 @@ Maintained continuously during implementation. Every entry is categorized:
 **Step:** 1  
 **Detail:** CORS/origin allowlist, tenant middleware, rate limiting, identity + taxonomy + gamification + media router mounting, static SPA fallback — near-verbatim from `bray-scenarios/server/app.ts` with route prefixes adjusted. No `createApp()` factory exists.  
 **Action:** Count toward boilerplate ratio in Step 8 ADR; optional `createApp()` remains a non-goal per Phase 5 brief.
+
+### FL-009 — `MediaUsageHook` implementation copied from Scenarios
+**Category:** [boilerplate]  
+**Step:** 2  
+**Detail:** `server/media-usage.ts` mirrors `bray-scenarios/server/media-usage.ts` — `countUsages` + `onMediaDeleted` against `decks.coverImageMediaId`. Platform correctly delegates app-specific cover references to the hook.  
+**Action:** Scaffold should ship a stub `media-usage.ts` with a comment pointing at the pattern.
+
+### FL-010 — Classification seed module copied from Scenarios shape
+**Category:** [boilerplate]  
+**Step:** 2  
+**Detail:** `server/seed-classifications.ts` follows Scenarios' `seed-classifications.ts` structure (dimension insert + option loop) but with a single `topic` dimension and four options.  
+**Action:** Scaffold candidate; dimension/option data is app-specific.
+
+### FL-011 — Deck↔topic links via `classificationService.setContentClassifications`
+**Category:** [app-specific]  
+**Step:** 2  
+**Detail:** Deck create/update accepts `topic` slug in the body; routes call `classificationService.setContentClassifications("deck", id, { topic })`. Generic taxonomy write path works without platform changes.  
+**Action:** None.
+
+### FL-012 — No `GamificationService.setRewardTiers`; tier writes are app-owned
+**Category:** [platform-gap] (low)  
+**Step:** 3  
+**Detail:** `GamificationService` exposes `getRewardTiers` but tier persistence uses direct `reward_tiers` inserts/updates with `normalizeRewardTiers` — same reconcile pattern as Scenarios' `roleplay-system.controller`. Brief's "tier get/set API" is really get-via-service + set-via-app-DB.  
+**Action:** Optional platform helper in Step 7; not blocking.
+
+### FL-013 — Reward-tier reconcile copied from Scenarios controller
+**Category:** [boilerplate]  
+**Step:** 3  
+**Detail:** `server/lib/deck-gamification.ts` `replaceDeckRewardTiers` mirrors the upsert/delete loop from `roleplay-system.controller.ts` (~40 lines).  
+**Action:** Scaffold candidate once a platform `setRewardTiers` helper exists (FL-012).
