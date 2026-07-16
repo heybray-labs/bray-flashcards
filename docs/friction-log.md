@@ -131,3 +131,35 @@ Maintained continuously during implementation. Every entry is categorized:
 **Step:** 6  
 **Detail:** 3-stage `Dockerfile`, `docker/entrypoint.sh`, and `.github/workflows/ci.yml` follow Scenarios' job shape (typecheck+build, fresh-DB init, API tests vs Postgres service, docker build smoke) with single-package paths (`npm run build`, `db:init`, port 3102, `dist/` + `server/` layout).  
 **Action:** Count toward ADR boilerplate ratio.
+
+---
+
+## Step 7 — Platform round-trip
+
+### FL-005 — `reward_tiers.legacy_id` (deferred)
+**Category:** [platform-gap] (low)  
+**Status:** **Deferred** — column remains in `@heybray/gamification/schema` until Scenarios ships migration 0010 drop. No platform PR in this round.
+
+### FL-006 — `content_type DEFAULT 'scenario'`
+**Category:** [platform-gap]  
+**Status:** PR [heybray-labs/bray-platform#TBD](https://github.com/heybray-labs/bray-platform/pull/new/phase-5-platform-gaps) — changeset `phase5-gamification-gaps` removes defaults from `reward_tiers`, `user_content_tier_awards`, and `content_classification_links`.
+
+### FL-012 — `GamificationService.setRewardTiers`
+**Category:** [platform-gap]  
+**Status:** Same PR — `setRewardTiers` + `ensureDefaultRewardTiers` added to `@heybray/gamification`. Flashcards can replace `deck-gamification.ts` reconcile after pin bump.
+
+### FL-014 — Star map Scenarios-shaped API paths
+**Category:** [platform-gap]  
+**Status:** Same PR — `star-map-paths.ts`, configurable `MemberProgressDrawer` props, `contents`/`scenarios` response normalization. Legacy `/scenario-history` + `/roleplays/.../attempts` remain default for Scenarios back-compat; flashcards keeps adapter routes until optional alias migration.
+
+### FL-021 — Leaderboard `scope=category` wire token
+**Category:** [platform-gap]  
+**Step:** 7  
+**Detail:** `LeaderboardPanel` hardcoded `scope=category`; gamification router only accepted that token though service uses `masteryDimensionSlug` internally.  
+**Status:** Same PR — `masteryScopeToken` prop (default `category`), server `resolveLeaderboardScope` accepts dimension slug (e.g. `topic`) with back-compat.
+
+### FL-001 — basic-app stale pins
+**Category:** [boilerplate]  
+**Status:** Same PR — `examples/basic-app` bumped to `^0.1.1` / `^0.1.2` for server-kit.
+
+**Checkpoint:** Awaiting manual npm publish after Version Packages PR merges. Then bump `bray-flashcards` `@heybray/*` pins and adopt `masteryScopeToken="topic"`, `gamificationContentType: "deck"`, optional `setRewardTiers` refactor.
