@@ -114,15 +114,15 @@ describe("Media & teams API", () => {
       expect(res.status).toBe(403);
     });
 
-    it("GET /api/teams/:id/members/:userId/scenario-history allows manager", async () => {
+    it("GET /api/teams/:id/members/:userId/content-history allows manager", async () => {
       const res = await api()
-        .get(`/api/teams/${teamId}/members/${learner.id}/scenario-history`)
+        .get(`/api/teams/${teamId}/members/${learner.id}/content-history`)
         .set(authHeader(manager.token))
         .expect(200);
       expect(res.body.userId).toBe(learner.id);
       expect(Array.isArray(res.body.categories)).toBe(true);
-      if (res.body.categories.length > 0 && res.body.categories[0].scenarios.length > 0) {
-        expect(res.body.categories[0].scenarios[0]).toMatchObject({
+      if (res.body.categories.length > 0 && res.body.categories[0].contents.length > 0) {
+        expect(res.body.categories[0].contents[0]).toMatchObject({
           contentId: expect.any(Number),
           title: expect.any(String),
           attemptCount: expect.any(Number),
@@ -130,9 +130,9 @@ describe("Media & teams API", () => {
       }
     });
 
-    it("GET /api/teams/:id/members/:userId/roleplays/:id/attempts allows manager", async () => {
+    it("GET /api/teams/:id/members/:userId/contents/:id/attempts allows manager", async () => {
       const res = await api()
-        .get(`/api/teams/${teamId}/members/${learner.id}/roleplays/${deckId}/attempts`)
+        .get(`/api/teams/${teamId}/members/${learner.id}/contents/${deckId}/attempts`)
         .set(authHeader(manager.token))
         .expect(200);
       expect(res.body.attempts.length).toBeGreaterThan(0);

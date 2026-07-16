@@ -53,20 +53,16 @@ export function DeckListRow({ item, teamId, memberUserId }: DeckListRowProps) {
   const [expanded, setExpanded] = useState(false);
   const starLevel = (item.starLevel ?? 0) as 0 | 1 | 2 | 3;
 
+  const attemptsPath = `/api/teams/${teamId}/members/${memberUserId}/contents/${item.contentId}/attempts`;
+
   const { data, isLoading } = useQuery<{ attempts: SessionAttempt[] }>({
-    queryKey: [
-      `/api/teams/${teamId}/members/${memberUserId}/roleplays/${item.contentId}/attempts`,
-    ],
-    queryFn: () =>
-      apiRequest(
-        "GET",
-        `/api/teams/${teamId}/members/${memberUserId}/roleplays/${item.contentId}/attempts`,
-      ),
+    queryKey: [attemptsPath],
+    queryFn: () => apiRequest("GET", attemptsPath),
     enabled: expanded,
   });
 
   return (
-    <div className={cn("rounded-lg border bg-card", drawerPink.scenarioRow)}>
+    <div className={cn("rounded-lg border bg-card", drawerPink.contentRow)}>
       <button
         type="button"
         className="flex w-full items-center gap-3 p-2 text-left"

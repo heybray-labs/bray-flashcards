@@ -15,6 +15,13 @@
       "when": 1784117100000,
       "tag": "0001_deck_bindings",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784117100001,
+      "tag": "0002_drop_legacy_id",
+      "breakpoints": true
     }
   ]
 }

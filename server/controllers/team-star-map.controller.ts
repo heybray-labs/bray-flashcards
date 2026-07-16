@@ -21,7 +21,7 @@ export const teamStarMapController = {
     return teamStarMap.getMemberProgress(user, teamId, memberUserId);
   },
 
-  async getMemberScenarioHistory(
+  async getMemberContentHistory(
     user: UserWithRole,
     teamId: number | "all",
     memberUserId: number,
@@ -54,7 +54,7 @@ export const teamStarMapController = {
         label: category.label,
         total: category.total,
         starCounts: category.starCounts,
-        scenarios: category.contents.map((content) => ({
+        contents: category.contents.map((content) => ({
           contentId: content.contentId,
           title: content.title,
           coverImageMediaId: coverByDeck.get(content.contentId) ?? null,
@@ -67,11 +67,11 @@ export const teamStarMapController = {
     };
   },
 
-  async getMemberScenarioAttempts(
+  async getMemberContentAttempts(
     user: UserWithRole,
     teamId: number | "all",
     memberUserId: number,
-    deckId: number,
+    contentId: number,
   ) {
     await assertMemberTeamAccess(user, teamId, memberUserId);
 
@@ -88,7 +88,7 @@ export const teamStarMapController = {
       .where(
         and(
           eq(studySessions.userId, memberUserId),
-          eq(studySessions.deckId, deckId),
+          eq(studySessions.deckId, contentId),
           eq(studySessions.status, "completed"),
         ),
       )

@@ -38,10 +38,10 @@ const memberUserIdParamSchema = z.object({
   userId: z.coerce.number().int().positive(),
 });
 
-const memberDeckParamSchema = z.object({
+const memberContentParamSchema = z.object({
   id: z.union([z.literal("all"), z.coerce.number().int().positive()]),
   userId: z.coerce.number().int().positive(),
-  roleplayId: z.coerce.number().int().positive(),
+  contentId: z.coerce.number().int().positive(),
 });
 
 router.get("/:id/star-map", requireTeamViewAccess, async (req: AuthRequest, res) => {
@@ -83,12 +83,12 @@ router.get(
 );
 
 router.get(
-  "/:id/members/:userId/scenario-history",
+  "/:id/members/:userId/content-history",
   requireTeamViewAccess,
   async (req: AuthRequest, res) => {
     try {
       const { id, userId } = memberUserIdParamSchema.parse(req.params);
-      const data = await teamStarMapController.getMemberScenarioHistory(req.user!, id, userId);
+      const data = await teamStarMapController.getMemberContentHistory(req.user!, id, userId);
       res.json(data);
     } catch (error) {
       if (error instanceof TeamAccessError) {
@@ -104,16 +104,16 @@ router.get(
 );
 
 router.get(
-  "/:id/members/:userId/roleplays/:roleplayId/attempts",
+  "/:id/members/:userId/contents/:contentId/attempts",
   requireTeamViewAccess,
   async (req: AuthRequest, res) => {
     try {
-      const { id, userId, roleplayId } = memberDeckParamSchema.parse(req.params);
-      const attempts = await teamStarMapController.getMemberScenarioAttempts(
+      const { id, userId, contentId } = memberContentParamSchema.parse(req.params);
+      const attempts = await teamStarMapController.getMemberContentAttempts(
         req.user!,
         id,
         userId,
-        roleplayId,
+        contentId,
       );
       res.json({ attempts });
     } catch (error) {
