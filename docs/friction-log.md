@@ -113,3 +113,15 @@ Maintained continuously during implementation. Every entry is categorized:
 **Step:** 4  
 **Detail:** Complete response is stashed client-side for the results page; no server route to re-fetch a completed session by id.  
 **Action:** Optional GET `/api/decks/:deckId/sessions/:id` in a later step if deep-linking results matters.
+
+### FL-018 — Test harness copied from Scenarios
+**Category:** [boilerplate]  
+**Step:** 5  
+**Detail:** `docker-compose.test.yml`, `bin/test.sh`, `vitest.config.ts`, and `server/test/` helpers (`env.ts`, `global-setup.ts`, `setup.ts`, `db.ts`, `helpers/request.ts`, `helpers/auth.ts`, `helpers/assertions.ts`) are near-verbatim from `bray-scenarios` with port `5435`, `db:init` via `initializeDatabase()`, and deck-specific fixtures. API test files follow Scenarios' suite shape (auth, health, classifications, points, teams/star-map) adapted for decks/sessions.  
+**Action:** Count toward ADR boilerplate ratio; candidate for shared test-kit package or scaffold template.
+
+### FL-019 — Duplicate `setupAdmin` across test files within a suite
+**Category:** [app-specific]  
+**Step:** 5  
+**Detail:** Each test file calls `setupAdmin()` in `beforeAll`; `resetMutableData()` truncates users between files so this works, but nested `describe` blocks in the same file must share one `beforeAll` (learned fixing `media-teams.test.ts`).  
+**Action:** None — document pattern in harness if extracted to template.
