@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.github
+.env
+.env.*
+!.env.example
+docs
+bin
+docker-compose.test.yml
+server/test
+vitest.config.ts
+*.md
+!README.md

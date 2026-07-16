@@ -125,3 +125,9 @@ Maintained continuously during implementation. Every entry is categorized:
 **Step:** 5  
 **Detail:** Each test file calls `setupAdmin()` in `beforeAll`; `resetMutableData()` truncates users between files so this works, but nested `describe` blocks in the same file must share one `beforeAll` (learned fixing `media-teams.test.ts`).  
 **Action:** None — document pattern in harness if extracted to template.
+
+### FL-020 — Dockerfile and CI copied from Scenarios, adapted to single-package
+**Category:** [boilerplate]  
+**Step:** 6  
+**Detail:** 3-stage `Dockerfile`, `docker/entrypoint.sh`, and `.github/workflows/ci.yml` follow Scenarios' job shape (typecheck+build, fresh-DB init, API tests vs Postgres service, docker build smoke) with single-package paths (`npm run build`, `db:init`, port 3102, `dist/` + `server/` layout).  
+**Action:** Count toward ADR boilerplate ratio.
