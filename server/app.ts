@@ -36,6 +36,7 @@ import {
   MASTERY_DIMENSION_SLUG,
 } from "./gamification.ts";
 import "./db.ts";
+import deckRoutes from "./routes/decks.ts";
 
 export function createApp(): express.Application {
   const app = express();
@@ -113,6 +114,7 @@ export function createApp(): express.Application {
     ),
   );
   app.use("/api/teams", authenticateToken, requirePasswordChanged, teamsRouter);
+  app.use("/api/decks", deckRoutes);
 
   if (process.env.NODE_ENV !== "test") {
     const clientDist = path.resolve(

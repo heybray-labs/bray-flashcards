@@ -8,6 +8,7 @@ import { roles } from "@heybray/identity/schema";
 import { createLogger } from "@heybray/server-kit";
 import { db } from "./db.ts";
 import { MANAGE_PERMISSION } from "./gamification.ts";
+import { seedClassifications } from "./seed-classifications.ts";
 
 const log = createLogger("seed");
 
@@ -27,5 +28,12 @@ async function seedRoles() {
 
 export async function seedDatabase() {
   await seedRoles();
+  try {
+    await seedClassifications();
+  } catch (error) {
+    log.warn("Classification seed failed", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
   log.info("Seed complete");
 }

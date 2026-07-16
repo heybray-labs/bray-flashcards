@@ -8,10 +8,11 @@ import {
   serial,
   text,
   integer,
-  boolean,
   timestamp,
   numeric,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 import { users } from "@heybray/identity/schema";
 import { mediaAssets } from "@heybray/media/schema";
 
@@ -60,3 +61,23 @@ export const studySessions = pgTable("study_sessions", {
 export type Deck = typeof decks.$inferSelect;
 export type Card = typeof cards.$inferSelect;
 export type StudySession = typeof studySessions.$inferSelect;
+
+export const insertDeckSchema = createInsertSchema(decks).omit({
+  id: true,
+  status: true,
+  createdBy: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const updateDeckSchema = insertDeckSchema.partial();
+
+export const insertCardSchema = createInsertSchema(cards).omit({
+  id: true,
+  deckId: true,
+});
+
+export const updateCardSchema = insertCardSchema.partial();
+
+export type InsertDeck = z.infer<typeof insertDeckSchema>;
+export type InsertCard = z.infer<typeof insertCardSchema>;
