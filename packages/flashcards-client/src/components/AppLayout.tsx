@@ -18,6 +18,7 @@ import { Button } from "@heybray/ui/components/button";
 import { NoticeBannerButton, noticeLabelClassName } from "@heybray/ui/components/NoticeBanner";
 import { PointsHistoryDialog } from "@heybray/gamification-react/points/PointsHistoryDialog";
 import logoSrc from "@/assets/logo.svg";
+import { usePackageLayoutEnabled } from "@/layout-context";
 
 const MANAGE_PERMISSION = "deck:manage";
 
@@ -102,6 +103,11 @@ function AppNavActions() {
 }
 
 export function AppLayout({ children }: { children: ReactNode }) {
+  const usePackageLayout = usePackageLayoutEnabled();
+  if (!usePackageLayout) {
+    return <>{children}</>;
+  }
+
   return (
     <MainLayout
       brand={<AppBrand />}

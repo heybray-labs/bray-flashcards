@@ -31,3 +31,4 @@ export const flashcardsApp = {
 };
 
 export { registerAdminPanels };
+export { PackageLayoutProvider, usePackageLayoutEnabled } from "./layout-context";

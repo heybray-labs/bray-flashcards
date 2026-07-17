@@ -177,3 +177,22 @@ Maintained continuously during implementation. Every entry is categorized:
 **Category:** [accepted convention]  
 **Detail:** Feature packages with pre-extraction migration history export `migrationsDir: null`; historical SQL stays in the standalone shell. Premium composes platform + both app schemas and generates its own `0000`. Flashcards shell keeps `drizzle/0000`–`0002`.  
 **Action:** None — convention locked for 6A premium shell.
+
+---
+
+## Phase 6A — Step 4 follow-up (0.1.1 package API)
+
+### FL-6A4-001 — `registerDomainRoutes` + star-map drill-in handlers
+**Category:** [platform/package API]  
+**Detail:** Composed shells cannot call full `registerRoutes()` without duplicating platform routers. `@heybray/flashcards-server@0.1.1` exports `registerDomainRoutes()` and `@heybray/flashcards-server/team-star-map` drill-in functions.  
+**Action:** Shipped in 0.1.1.
+
+### FL-6A4-004 — `PackageLayoutProvider`
+**Category:** [client package API]  
+**Detail:** `@heybray/flashcards-client@0.1.1` exports `PackageLayoutProvider` / `usePackageLayoutEnabled` so composed shells disable in-package `AppLayout`.  
+**Action:** Shipped in 0.1.1.
+
+### FL-6A4-007 — Raw `.ts` feature package source
+**Category:** [accepted convention]  
+**Detail:** Feature packages publish raw TypeScript (`main` → `src/index.ts`), unlike platform `dist/` packages. Consumable only by tsx/vite shells.  
+**Action:** Document in scaffold ADR (6B).
