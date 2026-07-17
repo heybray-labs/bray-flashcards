@@ -1,6 +1,6 @@
 {
   "name": "@heybray/flashcards-client",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "license": "AGPL-3.0-only",
   "description": "Flashcards deck domain — mountable client feature package (routes, pages, admin panels).",
