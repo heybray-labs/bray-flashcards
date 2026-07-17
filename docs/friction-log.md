@@ -163,3 +163,17 @@ Maintained continuously during implementation. Every entry is categorized:
 **Status:** Same PR — `examples/basic-app` bumped to `^0.1.1` / `^0.1.2` for server-kit.
 
 **Checkpoint:** Published manually as `brayg` (CI `NPM_TOKEN` invalid — see [bray-platform#6](https://github.com/heybray-labs/bray-platform/pull/6)). Pins bumped to `@heybray/gamification@^0.2.0`, `@heybray/gamification-react@^0.2.0`, `@heybray/react@^0.1.2`, `@heybray/taxonomy@^0.1.2`. Flashcards adopts `masteryScopeToken="topic"`, `gamificationContentType: "deck"`, `ContentListRowComponent`, and `GamificationService.setRewardTiers`.
+
+---
+
+## Phase 6A — Step 2 (accepted conventions)
+
+### FL-6A2-001 — Package-specifier `vi.mock` convention
+**Category:** [accepted convention]  
+**Detail:** Same as Scenarios Step 2 report — path-based mocks break once SUT imports move to package specifiers. Flashcards has no LLM mocks today (zero test edits on extraction); adopt package-specifier mocking in `bray-app-template` harness next time the template is touched.  
+**Action:** Template only (deferred).
+
+### FL-6A2-002 — `migrationsDir: null` for extracted feature packages
+**Category:** [accepted convention]  
+**Detail:** Feature packages with pre-extraction migration history export `migrationsDir: null`; historical SQL stays in the standalone shell. Premium composes platform + both app schemas and generates its own `0000`. Flashcards shell keeps `drizzle/0000`–`0002`.  
+**Action:** None — convention locked for 6A premium shell.
