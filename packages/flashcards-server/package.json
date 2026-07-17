@@ -1,6 +1,6 @@
 {
   "name": "@heybray/flashcards-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "license": "AGPL-3.0-only",
   "description": "Flashcards deck domain — mountable server feature package (routes, schema, seed).",
@@ -26,6 +26,10 @@
     "./schema/*": {
       "types": "./src/schema/*.ts",
       "default": "./src/schema/*.ts"
+    },
+    "./team-star-map": {
+      "types": "./src/team-star-map-handlers.ts",
+      "default": "./src/team-star-map-handlers.ts"
     }
   },
   "scripts": {

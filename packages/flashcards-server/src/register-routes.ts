@@ -4,7 +4,7 @@
  */
 
 import express, { Router } from "express";
-import deckRoutes from "./routes/decks.ts";
+import { registerDomainRoutes, type FlashcardsServerDeps } from "./register-domain-routes.ts";
 import teamStarMapRoutes from "./routes/team-star-map.ts";
 import {
   DECK_CONTENT_TYPE,
@@ -23,13 +23,15 @@ import {
   setManagePermission,
 } from "@heybray/identity";
 
-export type FlashcardsServerDeps = Record<string, unknown>;
+export type { FlashcardsServerDeps };
 
 export function registerRoutes(
   app: express.Application,
   _deps: FlashcardsServerDeps = {},
 ): void {
   setManagePermission(MANAGE_PERMISSION);
+
+  registerDomainRoutes(app, _deps);
 
   app.use(
     "/api/media",
@@ -63,5 +65,4 @@ export function registerRoutes(
   teamsRoot.use(teamsRouter);
   teamsRoot.use(teamStarMapRoutes);
   app.use("/api/teams", teamsRoot);
-  app.use("/api/decks", deckRoutes);
 }

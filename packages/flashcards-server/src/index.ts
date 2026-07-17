@@ -4,7 +4,8 @@
  */
 
 import { decks, cards, studySessions } from "./schema/decks.ts";
-import { registerRoutes, type FlashcardsServerDeps } from "./register-routes.ts";
+import { registerRoutes } from "./register-routes.ts";
+import { registerDomainRoutes, type FlashcardsServerDeps } from "./register-domain-routes.ts";
 import {
   reconcileGamificationProjection,
   gamification,
@@ -41,6 +42,7 @@ export const flashcardsModule = {
 
 export {
   registerRoutes,
+  registerDomainRoutes,
   type FlashcardsServerDeps,
   reconcileGamificationProjection,
   gamification,
@@ -52,3 +54,9 @@ export {
   MASTERY_DIMENSION_SLUG,
   MANAGE_PERMISSION,
 };
+export {
+  getDeckStarMap,
+  getDeckMemberProgress,
+  getDeckMemberContentHistory,
+  getDeckMemberContentAttempts,
+} from "./team-star-map-handlers.ts";
