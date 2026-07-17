@@ -18,6 +18,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY package.json package-lock.json ./
+COPY packages/flashcards-client/package.json ./packages/flashcards-client/
+COPY packages/flashcards-server/package.json ./packages/flashcards-server/
 RUN npm ci --omit=dev
 
 COPY --from=build /app/dist ./dist

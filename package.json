@@ -16,7 +16,7 @@
     "start": "tsx --env-file=.env server/index.ts",
     "typecheck": "npm run typecheck --workspaces --if-present && tsc -p tsconfig.json --noEmit",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
-    "db:init": "tsx --env-file=.env server/init-db.ts",
+    "db:init": "tsx server/init-db.ts",
     "test": "./bin/test.sh",
     "test:api": "vitest run --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",
