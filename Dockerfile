@@ -1,6 +1,8 @@
 FROM node:20-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
+COPY packages/flashcards-client/package.json ./packages/flashcards-client/
+COPY packages/flashcards-server/package.json ./packages/flashcards-server/
 RUN npm ci
 
 FROM deps AS build
@@ -8,6 +10,7 @@ COPY index.html vite.config.ts tsconfig.json tailwind.config.ts postcss.config.j
 COPY src ./src
 COPY server ./server
 COPY drizzle ./drizzle
+COPY packages ./packages
 RUN npm run build
 
 FROM node:20-slim AS production
