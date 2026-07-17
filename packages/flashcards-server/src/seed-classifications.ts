@@ -3,7 +3,6 @@
  * Copyright (C) 2026 Heybray
  */
 
-import { db } from "./db.ts";
 import {
   classificationDimensions,
   classificationOptions,
@@ -11,7 +10,7 @@ import {
   FALLBACK_OPTION_DISPLAY,
 } from "@heybray/taxonomy/schema";
 import { and, eq } from "drizzle-orm";
-import { createLogger } from "@heybray/server-kit";
+import { db, createLogger } from "@heybray/server-kit";
 
 const log = createLogger("seed-classifications");
 

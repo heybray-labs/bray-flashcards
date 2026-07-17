@@ -13,14 +13,11 @@ import { Toaster } from "@heybray/ui/components/toaster";
 import { AppErrorBoundary, PageNotFoundScreen } from "@heybray/react/errors";
 import LoginPage from "@heybray/react/pages/LoginPage";
 import RegisterPage from "@heybray/react/pages/RegisterPage";
-import HomePage from "@/pages/HomePage";
-import DeckDetailPage from "@/pages/DeckDetailPage";
-import StudyPage from "@/pages/StudyPage";
-import SessionResultsPage from "@/pages/SessionResultsPage";
-import TeamStarMapPage from "@/pages/TeamStarMapPage";
-import "@/admin-panels";
-import logoSrc from "./logo.svg";
-import heroImageSrc from "./hero.svg";
+import { flashcardsApp } from "@heybray/flashcards-client";
+import logoSrc from "@heybray/flashcards-client/assets/logo.svg";
+import heroImageSrc from "@heybray/flashcards-client/assets/hero.svg";
+
+flashcardsApp.registerAdminPanels();
 
 const GITHUB_REPO_URL = "https://github.com/heybray-labs/bray-flashcards";
 
@@ -33,7 +30,7 @@ const appConfig: AppConfig = {
     issues: `${GITHUB_REPO_URL}/issues`,
   },
   routes: {
-    contentPath: (_contentType, contentId) => `/decks/${contentId}`,
+    contentPath: flashcardsApp.contentPath,
   },
   gamificationContentType: "deck",
 };
@@ -49,31 +46,13 @@ export default function App() {
             <Switch>
               <Route path="/login">{() => <LoginPage {...authBranding} />}</Route>
               <Route path="/register">{() => <RegisterPage {...authBranding} />}</Route>
-              <Route path="/">
-                <ProtectedRoute>
-                  <HomePage />
-                </ProtectedRoute>
-              </Route>
-              <Route path="/decks/:id">
-                <ProtectedRoute>
-                  <DeckDetailPage />
-                </ProtectedRoute>
-              </Route>
-              <Route path="/decks/:id/study/:sessionId">
-                <ProtectedRoute>
-                  <StudyPage />
-                </ProtectedRoute>
-              </Route>
-              <Route path="/decks/:id/results/:sessionId">
-                <ProtectedRoute>
-                  <SessionResultsPage />
-                </ProtectedRoute>
-              </Route>
-              <Route path="/team-star-map">
-                <ProtectedRoute>
-                  <TeamStarMapPage />
-                </ProtectedRoute>
-              </Route>
+              {flashcardsApp.routes.map(({ path, component: Component }) => (
+                <Route key={path} path={path}>
+                  <ProtectedRoute>
+                    <Component />
+                  </ProtectedRoute>
+                </Route>
+              ))}
               <Route>
                 <PageNotFoundScreen />
               </Route>

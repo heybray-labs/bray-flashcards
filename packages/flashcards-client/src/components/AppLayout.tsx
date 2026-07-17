@@ -17,7 +17,7 @@ import { useAppConfig } from "@heybray/react/config";
 import { Button } from "@heybray/ui/components/button";
 import { NoticeBannerButton, noticeLabelClassName } from "@heybray/ui/components/NoticeBanner";
 import { PointsHistoryDialog } from "@heybray/gamification-react/points/PointsHistoryDialog";
-import logoSrc from "@/logo.svg";
+import logoSrc from "@/assets/logo.svg";
 
 const MANAGE_PERMISSION = "deck:manage";
 

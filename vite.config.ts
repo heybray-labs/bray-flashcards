@@ -15,7 +15,9 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { "@": path.resolve(rootDir, "src") },
+    alias: {
+      "@": path.resolve(rootDir, "packages/flashcards-client/src"),
+    },
   },
   build: { target: "es2022", outDir: "dist" },
   server: {

@@ -9,17 +9,14 @@ import { mediaSchema } from "@heybray/media/schema";
 import { identitySchema } from "@heybray/identity/schema";
 import { taxonomySchema } from "@heybray/taxonomy";
 import { gamificationSchema } from "@heybray/gamification";
-import { decks, cards, studySessions } from "./schema/decks.ts";
-import { deckMediaUsage } from "./media-usage.ts";
-
-const appSchema = { decks, cards, studySessions };
+import { flashcardsSchema, deckMediaUsage } from "@heybray/flashcards-server";
 
 const schema = {
   ...mediaSchema,
   ...identitySchema,
   ...taxonomySchema,
   ...gamificationSchema,
-  ...appSchema,
+  ...flashcardsSchema,
 };
 
 const { db, pool } = createDb(schema);

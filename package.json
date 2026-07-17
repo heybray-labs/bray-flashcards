@@ -5,13 +5,16 @@
   "type": "module",
   "license": "AGPL-3.0-only",
   "description": "Flashcard/quiz trainer — Phase 5 platform validation app",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "concurrently -n server,client -c blue,green \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch --env-file=.env server/index.ts",
     "dev:client": "vite --mode development",
     "build": "vite build",
     "start": "tsx --env-file=.env server/index.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc -p tsconfig.json --noEmit",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "db:init": "tsx --env-file=.env server/init-db.ts",
     "test": "./bin/test.sh",
@@ -21,6 +24,8 @@
     "test:db:down": "docker compose -f docker-compose.test.yml down -v --remove-orphans"
   },
   "dependencies": {
+    "@heybray/flashcards-client": "*",
+    "@heybray/flashcards-server": "*",
     "@heybray/gamification": "^1.0.0",
     "@heybray/gamification-react": "^1.0.0",
     "@heybray/identity": "^1.0.0",

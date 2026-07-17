@@ -3,46 +3,30 @@
  * Copyright (C) 2026 Heybray
  */
 
-import express, { Router } from "express";
+import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "node:url";
-import { createTaxonomyRouter } from "@heybray/taxonomy";
-import { createGamificationRouter } from "@heybray/gamification";
-import { createMediaRouter } from "@heybray/media";
-import {
-  authenticationRouter,
-  usersRouter,
-  teamsRouter,
-  authenticateToken,
-  requirePasswordChanged,
-  requirePermission,
-  setManagePermission,
-  getAuthProtocol,
-  getActiveAuthProvider,
-} from "@heybray/identity";
+import { flashcardsModule } from "@heybray/flashcards-server";
 import {
   requestLogging,
   globalRateLimiter,
   getAppVersion,
   tenantContextMiddleware,
   createFeaturesRouter,
-  requireFeature,
 } from "@heybray/server-kit";
 import {
-  DECK_CONTENT_TYPE,
-  MANAGE_PERMISSION,
-  MASTERY_DIMENSION_SLUG,
-} from "./gamification.ts";
+  authenticationRouter,
+  usersRouter,
+  authenticateToken,
+  getAuthProtocol,
+  getActiveAuthProvider,
+} from "@heybray/identity";
 import "./db.ts";
-import deckRoutes from "./routes/decks.ts";
-import teamStarMapRoutes from "./routes/team-star-map.ts";
 
 export function createApp(): express.Application {
   const app = express();
-
-  setManagePermission(MANAGE_PERMISSION);
 
   if (process.env.TRUST_PROXY === "1" || process.env.TRUST_PROXY === "true") {
     app.set("trust proxy", 1);
@@ -89,38 +73,8 @@ export function createApp(): express.Application {
   app.use("/api/auth", authenticationRouter);
   app.use("/api/features", authenticateToken, createFeaturesRouter());
   app.use("/api/users", usersRouter);
-  app.use(
-    "/api/media",
-    createMediaRouter({
-      authenticateToken,
-      requirePasswordChanged,
-      requireManage: requirePermission(MANAGE_PERMISSION),
-    }),
-  );
-  app.use(
-    "/api/classifications",
-    createTaxonomyRouter({ managePermission: MANAGE_PERMISSION }),
-  );
-  app.use(
-    "/api/points",
-    createGamificationRouter(
-      {
-        contentTypes: [{ type: DECK_CONTENT_TYPE, label: "Deck" }],
-        masteryDimensionSlug: MASTERY_DIMENSION_SLUG,
-        managePermission: MANAGE_PERMISSION,
-      },
-      {
-        leaderboardMiddleware: [requireFeature("leaderboard")],
-      },
-    ),
-  );
-  const teamsRoot = Router();
-  teamsRoot.use(authenticateToken);
-  teamsRoot.use(requirePasswordChanged);
-  teamsRoot.use(teamsRouter);
-  teamsRoot.use(teamStarMapRoutes);
-  app.use("/api/teams", teamsRoot);
-  app.use("/api/decks", deckRoutes);
+
+  flashcardsModule.registerRoutes(app);
 
   if (process.env.NODE_ENV !== "test") {
     const clientDist = path.resolve(

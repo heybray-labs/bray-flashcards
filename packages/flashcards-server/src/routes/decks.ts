@@ -13,8 +13,7 @@ import {
   type AuthRequest,
 } from "@heybray/identity";
 import { classificationService } from "@heybray/taxonomy";
-import { createLogger } from "@heybray/server-kit";
-import { db } from "../db.ts";
+import { db, createLogger } from "@heybray/server-kit";
 import {
   cards,
   decks,

@@ -3,7 +3,7 @@
  * Copyright (C) 2026 Heybray
  */
 
-import { db } from "../db.ts";
+import { db } from "@heybray/server-kit";
 import { decks, studySessions } from "../schema/decks.ts";
 import { pointTransactions, starLevelFromTierName } from "@heybray/gamification";
 import type { UserWithRole } from "@heybray/identity/schema";

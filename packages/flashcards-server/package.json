@@ -1,0 +1,39 @@
+{
+  "name": "@heybray/flashcards-server",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "description": "Flashcards deck domain — mountable server feature package (routes, schema, seed).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./schema/*": {
+      "types": "./src/schema/*.ts",
+      "default": "./src/schema/*.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@heybray/gamification": "^1.0.0",
+    "@heybray/identity": "^1.0.0",
+    "@heybray/media": "^1.0.0",
+    "@heybray/server-kit": "^1.0.0",
+    "@heybray/taxonomy": "^1.0.0",
+    "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.7.1",
+    "express": "^4.21.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.16.11",
+    "typescript": "^5.6.3"
+  }
+}
