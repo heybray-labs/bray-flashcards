@@ -1,8 +1,8 @@
+@import "@heybray/ui/theme-default.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "@heybray/ui/theme-default.css";
 
 /* Flashcards whitelabel — teal primary override (gamification + nav tokens from baseline) */
 :root {
