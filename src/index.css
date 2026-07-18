@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Whitelabel palette — teal/emerald theme */
+@import "@heybray/ui/theme-default.css";
+
+/* Flashcards whitelabel — teal primary override (gamification + nav tokens from baseline) */
 :root {
   --background: hsl(160, 30%, 98%);
   --foreground: hsl(160, 40%, 12%);
-  --card: hsl(0, 0%, 100%);
   --card-foreground: hsl(160, 40%, 12%);
-  --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(160, 40%, 12%);
-  --primary: hsl(162, 72%, 38%);
-  --primary-foreground: hsl(0, 0%, 100%);
   --secondary: hsl(160, 25%, 92%);
   --secondary-foreground: hsl(160, 40%, 12%);
   --muted: hsl(160, 20%, 94%);
   --muted-foreground: hsl(160, 15%, 40%);
   --accent: hsl(160, 35%, 90%);
   --accent-foreground: hsl(160, 40%, 12%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(0, 0%, 100%);
   --border: hsl(160, 20%, 88%);
   --input: hsl(160, 20%, 88%);
+  --primary: hsl(162, 72%, 38%);
+  --primary-foreground: hsl(0, 0%, 100%);
   --ring: hsl(162, 72%, 38%);
   --radius: 0.5rem;
 }

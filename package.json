@@ -33,7 +33,7 @@
     "@heybray/react": "^1.2.0",
     "@heybray/server-kit": "^1.1.0",
     "@heybray/taxonomy": "^1.0.0",
-    "@heybray/ui": "^1.0.0",
+    "@heybray/ui": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.4",
     "@radix-ui/react-collapsible": "^1.1.4",
     "@radix-ui/react-dialog": "^1.1.7",
