@@ -31,6 +31,7 @@ const appConfig: AppConfig = {
   },
   routes: {
     contentPath: flashcardsApp.contentPath,
+    teamStarMapPath: "/team-star-map",
   },
   gamificationContentType: "deck",
 };
