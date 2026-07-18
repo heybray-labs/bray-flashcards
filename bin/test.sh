@@ -34,8 +34,8 @@ export RATE_LIMIT_MAX=10000
 export AUTH_RATE_LIMIT_MAX=10000
 export MEDIA_DIR="${MEDIA_DIR:-/tmp/bray-flashcards-test-media}"
 
-echo "Checking for committed yalc links..."
-./bin/check-no-yalc.sh
+echo "Running repo guards..."
+./bin/guards.sh
 
 echo "Running API tests..."
 npm run test:api
