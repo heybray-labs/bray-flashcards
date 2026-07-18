@@ -39,7 +39,7 @@
     "@heybray/gamification": "^1.0.0",
     "@heybray/identity": "^1.0.0",
     "@heybray/media": "^1.0.0",
-    "@heybray/server-kit": "^1.0.0",
+    "@heybray/server-kit": "^1.1.0",
     "@heybray/taxonomy": "^1.0.0",
     "drizzle-orm": "^0.45.2",
     "drizzle-zod": "^0.7.1",
