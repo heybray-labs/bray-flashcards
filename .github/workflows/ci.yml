@@ -17,6 +17,9 @@ concurrency:
 # Do not rename jobs or add path filters: a PR that never triggers a required check
 # blocks forever on "Expected".
 jobs:
+  # Required check contexts (org ruleset): "guards / guards" and "verify".
+  # Do not add paths filters/paths-ignore: a PR that skips this workflow
+  # blocks forever on "Expected" for the required checks.
   guards:
     uses: heybray-labs/.github/.github/workflows/guards.yml@main
 
