@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
-  "description": "Flashcard/quiz trainer — Phase 5 platform validation app",
+  "description": "Flashcard/quiz trainer \u2014 Phase 5 platform validation app",
   "workspaces": [
     "packages/*"
   ],
@@ -64,7 +64,8 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.20.5",
     "wouter": "^3.3.5",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "_guards_plant_yalc": "file:.yalc/@heybray/plant"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
