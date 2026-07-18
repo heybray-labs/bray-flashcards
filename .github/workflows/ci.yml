@@ -27,9 +27,13 @@ jobs:
 
       - run: npm ci
 
+      - run: ./bin/check-no-yalc.sh
+
       - run: npm run typecheck
 
       - run: npm run build
+
+      - run: npm run test --workspace=packages/flashcards-client
 
   migrate:
     name: Database init
