@@ -13,6 +13,9 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Job names below are ruleset-required check contexts ("guards / guards", "verify").
+# Do not rename jobs or add path filters: a PR that never triggers a required check
+# blocks forever on "Expected".
 jobs:
   guards:
     uses: heybray-labs/.github/.github/workflows/guards.yml@main
