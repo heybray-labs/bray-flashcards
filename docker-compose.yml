@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "${POSTGRES_PORT:-5433}:5432"
+      - "${POSTGRES_PORT:-5441}:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -17,5 +17,24 @@ services:
       timeout: 5s
       retries: 5
 
+  app:
+    build: .
+    ports:
+      - "${PORT:-3102}:3102"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/flashcards
+      PORT: 3102
+      MEDIA_DIR: /app/data/media
+    volumes:
+      - saml_certs:/app/data/saml
+      - media_data:/app/data/media
+
 volumes:
   pgdata:
+  saml_certs:
+  media_data:
