@@ -17,10 +17,13 @@ import {
   rewardTiers,
   userContentTierAwards,
 } from "@heybray/gamification/schema";
+import { getStorageProvider, initStorage } from "@heybray/media";
+import { mediaAssets } from "@heybray/media/schema";
 import { createLogger } from "@heybray/server-kit";
 import { DECK_CONTENT_TYPE, gamification as deckGamification } from "@heybray/flashcards-server";
 import { decks } from "@heybray/flashcards-server/schema/decks";
 import { db, pool } from "./db.ts";
+import { DEMO_DECK_COVER_PREFIX } from "./demo-deck-cover-art.ts";
 
 const log = createLogger("demo-wipe");
 
@@ -80,36 +83,71 @@ async function wipeDemoDeckGamification(demoDeckIds: number[]) {
     );
 }
 
+async function wipeDemoDeckCovers() {
+  const demoMedia = await db
+    .select()
+    .from(mediaAssets)
+    .where(like(mediaAssets.storageKey, `${DEMO_DECK_COVER_PREFIX}%`));
+
+  for (const asset of demoMedia) {
+    await getStorageProvider()
+      .delete(asset.storageKey)
+      .catch(() => undefined);
+  }
+
+  if (demoMedia.length) {
+    await db.delete(mediaAssets).where(like(mediaAssets.storageKey, `${DEMO_DECK_COVER_PREFIX}%`));
+    log.info("Removed demo deck cover media", { count: demoMedia.length });
+  }
+}
+
 export async function wipeDemoDecks() {
+  await initStorage();
+
   const existing = await db
     .select({ id: decks.id })
     .from(decks)
     .where(like(decks.title, `${DEMO_TITLE_PREFIX}%`));
 
   const demoDeckIds = existing.map((row) => row.id);
-  if (!demoDeckIds.length) return 0;
+  if (!demoDeckIds.length) {
+    await wipeDemoDeckCovers();
+    return 0;
+  }
 
   await wipeDemoDeckGamification(demoDeckIds);
   await db.delete(decks).where(like(decks.title, `${DEMO_TITLE_PREFIX}%`));
   for (const deckId of demoDeckIds) {
     await deckGamification.onContentDeleted(DECK_CONTENT_TYPE, deckId);
   }
+  await wipeDemoDeckCovers();
   log.info("Removed demo decks", { count: demoDeckIds.length });
   return demoDeckIds.length;
 }
 
-export async function demoWipeDatabase() {
+/** Remove demo decks (and cover media) then demo users. Safe to call before re-seeding. */
+export async function wipeDemo(): Promise<{ deckCount: number; userCount: number }> {
   const deckCount = await wipeDemoDecks();
   const deletedUsers = await db
     .delete(users)
     .where(like(users.email, `%@${DEMO_EMAIL_DOMAIN}`))
     .returning({ id: users.id });
 
+  if (deletedUsers.length) {
+    log.info("Removed demo users", { count: deletedUsers.length });
+  }
+
+  return { deckCount, userCount: deletedUsers.length };
+}
+
+export async function demoWipeDatabase() {
+  const { deckCount, userCount } = await wipeDemo();
+
   console.log("\n========================================");
   console.log("  Demo data removed");
   console.log("========================================\n");
   console.log(`Decks removed: ${deckCount}`);
-  console.log(`Users removed: ${deletedUsers.length}`);
+  console.log(`Users removed: ${userCount}`);
   console.log("Non-demo content, settings, and other users are unchanged.\n");
 }
 

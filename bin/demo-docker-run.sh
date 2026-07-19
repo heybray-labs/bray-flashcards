@@ -18,7 +18,15 @@ if [[ -d "$FLASHCARDS_SERVER_SRC" ]]; then
   MOUNTS+=(-v "$FLASHCARDS_SERVER_SRC:/app/node_modules/@heybray/flashcards-server/src")
 fi
 
+# Local dev reads ./data/media on the host; bind-mount so docker demo-seed matches.
+mkdir -p "$ROOT/data/media"
+MOUNTS+=(-v "$ROOT/data/media:/app/data/media")
+
+# Demo seed generates Lucide PNG covers; ensure deps exist in the one-off container
+# without requiring a full image rebuild after package.json changes.
+SETUP="npm install --no-save sharp lucide && "
+
 exec docker compose run --rm --no-deps \
   --entrypoint sh \
   "${MOUNTS[@]}" \
-  app -c "npx tsx ${SCRIPT}"
+  app -c "${SETUP}npx tsx ${SCRIPT}"
