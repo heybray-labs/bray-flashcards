@@ -1,8 +1,7 @@
 # Agent Guide — bray-flashcards
 
 Phase 5 validation app: a flashcard/quiz trainer proving the published `@heybray/*`
-platform packages compose into a second real app. Read `docs/phase-5-implementation.md`
-(in `bray-scenarios`) and `docs/friction-log.md` before making changes.
+platform packages compose into a second real app.
 
 **For any work touching `bray-platform` or another app repo, `docs/dev-workflow.md` in
 this repo is required reading and its "Standing rules" apply by default** — yalc-first
@@ -30,8 +29,6 @@ Single-package app (NOT Scenarios' client/server workspaces):
    Never vendor or patch `@heybray/*` inside this repo.
 4. **Migrations** — app's `drizzle/` owns platform + app tables (packages don't ship
    migrations yet). Binding FKs are a separate hand-authored migration after `0000`.
-5. **Friction log** — maintain `docs/friction-log.md` as you go; categorize every entry.
-
 ## Commands
 
 | Purpose | Command |
