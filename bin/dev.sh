@@ -19,6 +19,7 @@ set -a
 source .env
 set +a
 
+./bin/yalc-cache-bust.sh
 ./bin/check-dev-db-port.sh
 docker compose up -d db --wait
 npm run db:init

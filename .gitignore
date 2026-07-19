@@ -4,5 +4,6 @@ node_modules/
 dist/
 .env
 .turbo/
+.vite-yalc-sig
 *.log
 .DS_Store
