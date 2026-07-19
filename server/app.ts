@@ -76,7 +76,7 @@ export function createApp(): express.Application {
 
   flashcardsModule.registerRoutes(app);
 
-  if (process.env.NODE_ENV !== "test") {
+  if (process.env.NODE_ENV === "production") {
     const clientDist = path.resolve(
       path.dirname(fileURLToPath(import.meta.url)),
       "../dist",

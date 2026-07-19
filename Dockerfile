@@ -7,6 +7,7 @@ RUN npm ci
 
 FROM deps AS build
 COPY index.html vite.config.ts tsconfig.json tailwind.config.ts postcss.config.js drizzle.config.ts ./
+COPY public ./public
 COPY src ./src
 COPY server ./server
 COPY drizzle ./drizzle
