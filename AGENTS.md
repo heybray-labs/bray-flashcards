@@ -4,6 +4,13 @@ Phase 5 validation app: a flashcard/quiz trainer proving the published `@heybray
 platform packages compose into a second real app. Read `docs/phase-5-implementation.md`
 (in `bray-scenarios`) and `docs/friction-log.md` before making changes.
 
+**For any work touching `bray-platform` or another app repo, `docs/dev-workflow.md` in
+`bray-scenarios` (mirrored in `bray-platform/CONTRIBUTING.md`) is required reading and
+its "Standing rules" apply by default** — yalc-first cross-repo iteration, never
+auto-merge a Version Packages/publish PR, and the CI-round-trip discipline (iterate
+locally, batch small fixes, don't idle-wait on CI). These are permanent defaults, not
+per-task instructions.
+
 ## What this repo is
 
 Single-package app (NOT Scenarios' client/server workspaces):
