@@ -7,3 +7,4 @@ dist/
 .vite-yalc-sig
 *.log
 .DS_Store
+data/media/

@@ -19,6 +19,9 @@ set -a
 source .env
 set +a
 
+export MEDIA_DIR="${MEDIA_DIR:-data/media}"
+export VITE_API_PORT="${VITE_API_PORT:-${PORT:-3102}}"
+
 ./bin/yalc-cache-bust.sh
 ./bin/check-dev-db-port.sh
 docker compose up -d db --wait

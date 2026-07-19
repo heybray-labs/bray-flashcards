@@ -8,9 +8,10 @@
 
 import { pathToFileURL } from "node:url";
 import bcrypt from "bcrypt";
-import { eq, like } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { roles, users } from "@heybray/identity/schema";
 import { classificationService } from "@heybray/taxonomy";
+import { initStorage, mediaService } from "@heybray/media";
 import { createLogger } from "@heybray/server-kit";
 import {
   DECK_CONTENT_TYPE,
@@ -19,7 +20,13 @@ import {
 } from "@heybray/flashcards-server";
 import { cards, decks } from "@heybray/flashcards-server/schema/decks";
 import { db, pool } from "./db.ts";
-import { DEMO_EMAIL_DOMAIN, DEMO_TITLE_PREFIX, wipeDemoDecks } from "./demo-wipe.ts";
+import {
+  DEMO_DECK_COVER_PREFIX,
+  deckTitleToSlug,
+  resolveDemoDeckCoverArt,
+} from "./demo-deck-cover-art.ts";
+import { renderCoverImageFromArt } from "./demo-cover-render.ts";
+import { DEMO_TITLE_PREFIX, wipeDemo } from "./demo-wipe.ts";
 
 const log = createLogger("demo-seed");
 
@@ -60,8 +67,6 @@ async function seedDemoUsers() {
     throw new Error("Required roles not found — run db:init first.");
   }
 
-  await db.delete(users).where(like(users.email, `%@${DEMO_EMAIL_DOMAIN}`));
-
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
   let adminId = 0;
 
@@ -86,13 +91,22 @@ async function seedDemoUsers() {
 }
 
 async function seedDecks(adminUserId: number) {
-  await wipeDemoDecks();
+  await initStorage();
 
   const created: { id: number; title: string }[] = [];
 
   for (let i = 0; i < DEMO_DECK_COUNT; i++) {
     const baseTitle = DECK_TITLES[i % DECK_TITLES.length] ?? `Deck ${i + 1}`;
     const title = `${DEMO_TITLE_PREFIX}${baseTitle}`;
+    const slug = deckTitleToSlug(baseTitle);
+
+    const coverBuffer = await renderCoverImageFromArt(resolveDemoDeckCoverArt(baseTitle));
+    const coverAsset = await mediaService.createFromBuffer(coverBuffer, {
+      originalFilename: `${slug}-cover.png`,
+      mimeType: "image/png",
+      createdBy: adminUserId,
+      storageKey: `${DEMO_DECK_COVER_PREFIX}${slug}.png`,
+    });
 
     const [deck] = await db
       .insert(decks)
@@ -102,6 +116,7 @@ async function seedDecks(adminUserId: number) {
         status: "published",
         passThreshold: 70,
         createdBy: adminUserId,
+        coverImageMediaId: coverAsset.id,
       })
       .returning();
 
@@ -145,13 +160,14 @@ async function seedDecks(adminUserId: number) {
 
 export async function demoSeedDatabase() {
   await seedDatabase();
+  await wipeDemo();
   const adminId = await seedDemoUsers();
   const seededDecks = await seedDecks(adminId);
 
   console.log("\n========================================");
   console.log("  Demo data seeded");
   console.log("========================================\n");
-  console.log(`Decks: ${seededDecks.length} published with 8 cards each`);
+  console.log(`Decks: ${seededDecks.length} published with cover images & 8 cards each`);
   console.log(`Password: ${DEMO_PASSWORD}`);
   console.log("  Admin:  admin@demo.local");
   console.log("  Users:  sarah.chen@demo.local, james.wilson@demo.local, maria.garcia@demo.local\n");
