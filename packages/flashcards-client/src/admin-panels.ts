@@ -15,6 +15,8 @@ import logoSrc from "./assets/logo.svg";
 
 let registered = false;
 
+const DECK_MANAGE = "deck:manage";
+
 export function registerAdminPanels(): void {
   if (registered) return;
   registered = true;
@@ -22,12 +24,14 @@ export function registerAdminPanels(): void {
   registerAdminPanel({
     value: "users",
     label: "Users",
+    requiresRole: "admin",
     render: () => createElement(UsersManagementPanel),
   });
 
   registerAdminPanel({
     value: "teams",
     label: "Teams",
+    requiresRole: "admin",
     render: () => createElement(TeamsManagementPanel),
   });
 
@@ -35,6 +39,7 @@ export function registerAdminPanels(): void {
     value: "media",
     label: "Media",
     requiresManage: true,
+    managePermission: DECK_MANAGE,
     render: () =>
       createElement(MediaManagementPanel, {
         contentNoun: "deck",
@@ -48,6 +53,7 @@ export function registerAdminPanels(): void {
     value: "classifications",
     label: "Classifications",
     requiresManage: true,
+    managePermission: DECK_MANAGE,
     render: () =>
       createElement(ClassificationManagementPanel, {
         contentNoun: "deck",
