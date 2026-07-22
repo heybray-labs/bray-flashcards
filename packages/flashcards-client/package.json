@@ -36,7 +36,7 @@
   "dependencies": {
     "@heybray/gamification": "^1.0.0",
     "@heybray/gamification-react": "^1.2.0",
-    "@heybray/react": "^1.2.0",
+    "@heybray/react": "^1.3.2",
     "@heybray/ui": "^1.1.0",
     "@tanstack/react-query": "^5.60.5",
     "class-variance-authority": "^0.7.1",
