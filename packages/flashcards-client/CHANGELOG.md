@@ -1,5 +1,11 @@
 # @heybray/flashcards-client
 
+## 0.1.3
+
+### Patch Changes
+
+- 1c16d4a: Declare `managePermission` / `requiresRole` on settings admin panels so composed shells only mount tabs the signed-in user can access.
+
 ## 0.1.2
 
 ### Patch Changes
